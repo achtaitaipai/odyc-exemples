@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "lib": ["es2020", "DOM"],
+      "moduleResolution": "node",
+      "module": "ES2022",
+      "allowJs": true,
+      "checkJs": true,
+      "noEmit": true,
+      "strict": true,
+    },
+    "include": ["src/**/*.js", "src/**/*.d.ts"],
+    "exclude": ["node_modules"]
+  }
