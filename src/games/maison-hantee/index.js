@@ -1,4 +1,4 @@
-import { createGame,createSound } from "odyc"
+import { createGame, createSound } from "odyc"
 const sketuve = `
 		...4.44..
 		..44444..
@@ -21,7 +21,7 @@ const chat = `
 		0.....0..
 		0.....0..
 	`
-	const grimoire = `
+const grimoire = `
        
 		.........
 		111101111
@@ -49,18 +49,18 @@ const fin = `
 
 
 const game = createGame({
-    title: `LA MAISON HANTEE
+  title: `LA MAISON HANTEE
 
 
 
 
   
-            par Elise`,   
-  background:9,
+            par Elise`,
+  background: 9,
   cellWidth: 9,
   cellHeight: 9,
   player: {
-    sprite:`
+    sprite: `
 		...666...
 		...888...
 		...888...
@@ -74,12 +74,12 @@ const game = createGame({
     position: [4, 2],
   },
 
-  
+
   templates: {
     //Fantome solide
     f: {
-      sprite: 
-      `
+      sprite:
+        `
 		...11...
 		..1111..
 		..0101..
@@ -91,7 +91,8 @@ const game = createGame({
         11111111
       ` ,
     },//Fantome liquide
-    q:{sprite:       `
+    q: {
+      sprite: `
 		...11...
 		..1111..
 		..0101..
@@ -102,12 +103,13 @@ const game = createGame({
 		11111111
         11111111
       `,
-      solid:false},
-    
+      solid: false
+    },
+
     //Vampire haut
     v: {
-      sprite: 
-`
+      sprite:
+        `
 		..11111..
 		001010100
 		.0111110.
@@ -121,8 +123,8 @@ const game = createGame({
     },
     //Clown
     c: {
-      sprite: 
-`
+      sprite:
+        `
 		..11111..
 		661010166
 		661141166
@@ -133,11 +135,11 @@ const game = createGame({
 		333434333
 		333454333
 	`
-  },
+    },
     //Couteau
     k: {
-      sprite: 
-`
+      sprite:
+        `
 		.......14
 		......114
 		.....111.
@@ -148,12 +150,12 @@ const game = createGame({
 		000...444
 		00...4444
 	`,
-    dialog:"Brrr, cet endroit n'est pas du tout accueillant...",
+      dialog: "Brrr, cet endroit n'est pas du tout accueillant...",
     },
     //Vampire bas
     V: {
-      sprite: 
-`
+      sprite:
+        `
 		.1000001
 		..00000.
 		..00000.
@@ -162,12 +164,12 @@ const game = createGame({
 		..00000.
 		..00000.
 		..00000.
-	`, dialog:"Oooh, quel petit chat mignon! J'ai déjà un animal domestique, c'est dommage!"
-     },
+	`, dialog: "Oooh, quel petit chat mignon! J'ai déjà un animal domestique, c'est dommage!"
+    },
     //Balais
     b: {
-      sprite: 
-		`
+      sprite:
+        `
 		.......6
 		......6.
 		.....6..
@@ -177,12 +179,12 @@ const game = createGame({
 		5555....
 		555.....
 	`,
-      dialog:"Je suis le balais le plus rapide du monde."
-  }, 
+      dialog: "Je suis le balais le plus rapide du monde."
+    },
     //Sorciere
     w: {
-      sprite: 
-		`
+      sprite:
+        `
 		....00...
 		..000000.
 		...6116..
@@ -193,13 +195,13 @@ const game = createGame({
 		..000000.
 		..000000.
 	`,
-      dialog:"Abracadabra un chat tu seras!",
-      sound:createSound('POWERUP', 1988),
-      onCollide: function(target){
-          game.player.sprite=chat
+      dialog: "Abracadabra un chat tu seras!",
+      sound: createSound('POWERUP', 1988),
+      onCollide: function(target) {
+        game.player.sprite = chat
         target.remove()
       }
-       },
+    },
     //Grimoire
     g: {
       sprite:
@@ -214,18 +216,18 @@ const game = createGame({
 		.44444445
 		.44444445
 	`,
-      onCollide :async function(target) {
+      onCollide: async function(target) {
         target.sprite = grimoire
         await game.openDialog("Oh, un grimoire! Je vais essayer de retrouver une forme humaine! Arbadacarba, je ne veux plus être un chat!")
-        game.playSound('POWERUP',666)
+        game.playSound('POWERUP', 666)
         game.player.sprite = fin
         await game.openDialog("Oups, ce n'est pas ce que j'avais prévu, je vais finalement rester ici.")
         game.end('Fin...')
       }
-    }, 
+    },
 
     //Tete de mort
-    t:{
+    t: {
       sprite: `
 		.1111111.
 		.1001001.
@@ -237,9 +239,11 @@ const game = createGame({
 		..10101..
 		..10101..
 	`,
-    dialog:"Je n'ai jamais pu sortir d'ici, je suis tombé sur un os..."},
+      dialog: "Je n'ai jamais pu sortir d'ici, je suis tombé sur un os..."
+    },
     //Os 
-    o:{sprite: `
+    o: {
+      sprite: `
 		......11.
 		......111
 		.....1111
@@ -250,20 +254,20 @@ const game = createGame({
 		111......
 		.11......
 	`,
-       onCollide:function(target){
-         target.remove()
-         game.setAll('s',{
-           solid: false,
-           dialog: 'Ohh merci pour ce bel os. Tu peux passer!'
-         })
-       },
-      dialog:"Oh, un bel os, je le garde!",
-       sound: createSound('PICKUP', 9)
-  
+      onCollide: function(target) {
+        target.remove()
+        game.setAll('s', {
+          solid: false,
+          dialog: 'Ohh merci pour ce bel os. Tu peux passer!'
+        })
+      },
+      dialog: "Oh, un bel os, je le garde!",
+      sound: createSound('PICKUP', 9)
+
     },
-  //décor
-    d:{
-      sprite:`
+    //décor
+    d: {
+      sprite: `
 		.0000000.
 		00..0..00
 		0.00.00.0
@@ -275,13 +279,14 @@ const game = createGame({
 		.0000000.
 	`,
       solid: false,
-      onEnter: function(target){
-          target.remove()
+      onEnter: function(target) {
+        target.remove()
       },
       sound: createSound('HIT', 9)
     },
     //piege
-    p:{sprite: `
+    p: {
+      sprite: `
 		
 		.........
         .........
@@ -294,12 +299,13 @@ const game = createGame({
 		222222222
 	`},
     //piege2
-    P:{sprite: `
+    P: {
+      sprite: `
        222222222
 		.2.2.2.2.
 		.4.2.4.2.`},
     //mur
-    x:{
+    x: {
       sprite: `
 		222222201
 		222222201
@@ -313,7 +319,8 @@ const game = createGame({
 	`
     },
     //clef
-    F: {sprite:`
+    F: {
+      sprite: `
 		........5
 		.......55
 		......55.
@@ -324,12 +331,13 @@ const game = createGame({
 		.5..5....
 		..55.....
 	`,
-        dialog:"Chic! Une clé en or, je vais surement pouvoir la vendre chère!",
-       sound: createSound('PICKUP', 5),
-  onCollide:function(target){target.remove()},
-       },
+      dialog: "Chic! Une clé en or, je vais surement pouvoir la vendre cher!",
+      sound: createSound('PICKUP', 5),
+      onCollide: function(target) { target.remove() },
+    },
     //Feu
-    a:{sprite:`
+    a: {
+      sprite: `
 		...5.....
 		...5.....
 		..555....
@@ -339,22 +347,23 @@ const game = createGame({
 		466446666
 		444444444
 	`,
-       solid: false,
-       visible: false,
-       onLeave: function(target) {
-         target.visible = true
-       },
-       onEnter: async function(target){
-         if(target.visible){
-           game.playSound('EXPLOSION',69)
-           await game.openDialog('Aïe!')
-           game.player.position = [40, 4]
-           game.setAll('a',{visible:false,solid:false})
-         }
-       }
+      solid: false,
+      visible: false,
+      onLeave: function(target) {
+        target.visible = true
       },
+      onEnter: async function(target) {
+        if (target.visible) {
+          game.playSound('EXPLOSION', 69)
+          await game.openDialog('Aïe!')
+          game.player.position = [40, 4]
+          game.setAll('a', { visible: false, solid: false })
+        }
+      }
+    },
     //trone
-    i:{sprite:`
+    i: {
+      sprite: `
 		..44444..
 		..44444..
 		..44444..
@@ -365,15 +374,16 @@ const game = createGame({
 		.56...65.
 		.5.....5.
 	`,
-       onCollide:async function(target){
-         if(target.sprite !== sketuve){
-           await game.playSound('EXPLOSION', 33)
-           target.sprite = sketuve;
-         }
-       },
-       dialog: "J'ai une envie subite de me faire les griffes."
-},
-    O:{sprite:`
+      onCollide: async function(target) {
+        if (target.sprite !== sketuve) {
+          await game.playSound('EXPLOSION', 33)
+          target.sprite = sketuve;
+        }
+      },
+      dialog: "J'ai une envie subite de me faire les griffes."
+    },
+    O: {
+      sprite: `
 		..55555..
 		.5555555.
 		.5.555.5.
@@ -385,7 +395,7 @@ const game = createGame({
 		..55555..
 	`,
       dialog: 'Meilleur suceur\nDécerné à Droculo en 1756'
-      },
+    },
     // chaudron
     u: {
       sprite: `
@@ -402,7 +412,8 @@ const game = createGame({
       dialog: "Hum, cette soupe a une drôle d'odeur..."
     },
     //chien
-    s:{sprite:`
+    s: {
+      sprite: `
 		.22.22...
 		..222....
 		..020....
@@ -413,10 +424,11 @@ const game = createGame({
 		...2..2..
 		..22.22..
 	`,
-      dialog:"Comment faire pour que ce molosse me laisse passer? Si seulement j'avais un os...",
-      }, 
+      dialog: "Comment faire pour que ce molosse me laisse passer? Si seulement j'avais un os...",
+    },
     //chauve souris
-  S:{sprite: `
+    S: {
+      sprite: `
 		...0.0...
 		...000...
 		000505000
@@ -427,11 +439,12 @@ const game = createGame({
 		...000...
 		....0....
 	`,
-    dialog: "Certains fantômes sont gentils et te laisseront passer..."},
-  j:{sprite:7},
+      dialog: "Certains fantômes sont gentils et te laisseront passer..."
+    },
+    j: { sprite: 7 },
   },
-  
-  map:`
+
+  map: `
     jjJ...jj  xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
     jj....jj  x...b..x x....... .v.xx.Fx xqqqqfff xaaaaaaa x......x
     jj....jj  x.u...w. .....i.. .V.xx..x xqffqqff xaxxxxxx x......x
