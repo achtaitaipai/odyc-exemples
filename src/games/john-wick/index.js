@@ -218,7 +218,7 @@ const game = createGame({
       sprite: sprites.boss,
       onCollide: async (target) => {
         await game.openDialog("Pardon, je ne savais pas qui t'étais");
-        await game.playSound("RANDOM", 534633);
+        await game.playSound("FALL", 534633);
         await game.openDialog("Aaaargh");
         target.sprite = sprites.dead;
         target.solid = false;
@@ -235,7 +235,7 @@ const game = createGame({
 	................	................	................
 	................	................	................
 	----------------	----------------	----------------
-  	.D............b.	..e......e....e.	.e.....e...e..Z.$
+  .D............b.	..e......e....e.	.e.....e...e..Z.$
 	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX
 	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX
 	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX

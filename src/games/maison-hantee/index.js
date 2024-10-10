@@ -197,7 +197,7 @@ const game = createGame({
 	`,
       dialog: "Abracadabra un chat tu seras!",
       sound: createSound('POWERUP', 1988),
-      onCollide: function(target) {
+      onCollide: function (target) {
         game.player.sprite = chat
         target.remove()
       }
@@ -216,7 +216,7 @@ const game = createGame({
 		.44444445
 		.44444445
 	`,
-      onCollide: async function(target) {
+      onCollide: async function (target) {
         target.sprite = grimoire
         await game.openDialog("Oh, un grimoire! Je vais essayer de retrouver une forme humaine! Arbadacarba, je ne veux plus être un chat!")
         game.playSound('POWERUP', 666)
@@ -254,7 +254,7 @@ const game = createGame({
 		111......
 		.11......
 	`,
-      onCollide: function(target) {
+      onCollide: function (target) {
         target.remove()
         game.setAll('s', {
           solid: false,
@@ -279,7 +279,7 @@ const game = createGame({
 		.0000000.
 	`,
       solid: false,
-      onEnter: function(target) {
+      onEnter: function (target) {
         target.remove()
       },
       sound: createSound('HIT', 9)
@@ -331,9 +331,9 @@ const game = createGame({
 		.5..5....
 		..55.....
 	`,
-      dialog: "Chic! Une clé en or, je vais surement pouvoir la vendre cher!",
+      dialog: "Chic! Une clé en or, je vais surement pouvoir la vendre chère!",
       sound: createSound('PICKUP', 5),
-      onCollide: function(target) { target.remove() },
+      onCollide: function (target) { target.remove() },
     },
     //Feu
     a: {
@@ -349,10 +349,10 @@ const game = createGame({
 	`,
       solid: false,
       visible: false,
-      onLeave: function(target) {
+      onLeave: function (target) {
         target.visible = true
       },
-      onEnter: async function(target) {
+      onEnter: async function (target) {
         if (target.visible) {
           game.playSound('EXPLOSION', 69)
           await game.openDialog('Aïe!')
@@ -374,7 +374,7 @@ const game = createGame({
 		.56...65.
 		.5.....5.
 	`,
-      onCollide: async function(target) {
+      onCollide: async function (target) {
         if (target.sprite !== sketuve) {
           await game.playSound('EXPLOSION', 33)
           target.sprite = sketuve;

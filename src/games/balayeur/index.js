@@ -145,6 +145,7 @@ Tout est propre`);
     $: {
       sprite: sprites.cleanFloor,
       solid: false,
+      sound: createSound("FALL", 424245453),
       onEnter: async function (target) {
         game.addToCell(...target.position, "#");
         await game.openDialog("Oh non j'ai resali...");
