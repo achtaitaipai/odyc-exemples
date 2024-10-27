@@ -1,62 +1,62 @@
-import { createGame, createSound } from "odyc";
+import { createGame, createSound } from 'odyc'
 
-let levelIndex = 0;
+let levelIndex = 0
 
 const sprites = {
-  player: `
+	player: `
     00000
     0.0.0
     00000
     .0.0.
     .0.0.
   `,
-  left: `
+	left: `
     ..4..
     .44..
     44444
     .44..
     ..4..
   `,
-  right: `
+	right: `
     ..4..
     ..44.
     44444
     ..44.
     ..4..
   `,
-  top: `
+	top: `
     ..4..
     .444.
     44444
     ..4..
     ..4..
   `,
-  bottom: `
+	bottom: `
     ..4..
     ..4..
     44444
     .444.
     ..4..
   `,
-  bomb: `
+	bomb: `
     4.4.4
     ..4..
     44444
     ..4..
     4.4.4
   `,
-  win: `
+	win: `
     ..5..
     .555.
     55555
     .555.
     ..5..
   `,
-};
+}
 
 const levels = [
-  {
-    map: `
+	{
+		map: `
     ................
     ................
     ....##########..
@@ -74,11 +74,11 @@ const levels = [
     ................
     ................
     `,
-    playerX: 2,
-    playerY: 7,
-  },
-  {
-    map: `
+		playerX: 2,
+		playerY: 7,
+	},
+	{
+		map: `
     ................
     ................
     ................
@@ -96,11 +96,11 @@ const levels = [
     ................
     ................
     `,
-    playerX: 1,
-    playerY: 6,
-  },
-  {
-    map: `
+		playerX: 1,
+		playerY: 6,
+	},
+	{
+		map: `
     ................
     ................
     ................
@@ -118,11 +118,11 @@ const levels = [
     ................
     ................
     `,
-    playerX: 1,
-    playerY: 6,
-  },
-  {
-    map: `
+		playerX: 1,
+		playerY: 6,
+	},
+	{
+		map: `
     ................
     ................
     ................
@@ -141,11 +141,11 @@ const levels = [
     ................
     ................
     `,
-    playerX: 1,
-    playerY: 6,
-  },
-  {
-    map: `
+		playerX: 1,
+		playerY: 6,
+	},
+	{
+		map: `
     ################
     #vvvv.vvvvvvvvv#
     #..............#
@@ -163,11 +163,11 @@ const levels = [
     #......$.......#
     ################
     `,
-    playerX: 5,
-    playerY: 4,
-  },
-  {
-    map: `
+		playerX: 5,
+		playerY: 4,
+	},
+	{
+		map: `
     ################
     #..............#
     #.############v#
@@ -185,11 +185,11 @@ const levels = [
     #^.^....$......#
     ################
     `,
-    playerX: 7,
-    playerY: 3,
-  },
-  {
-    map: `
+		playerX: 7,
+		playerY: 3,
+	},
+	{
+		map: `
     ................
     ################
     #.........$.####
@@ -207,125 +207,125 @@ const levels = [
     ................
     ................
     `,
-    playerX: 2,
-    playerY: 9,
-  },
-];
+		playerX: 2,
+		playerY: 9,
+	},
+]
 
-let oldPlayerPos = [levels[levelIndex].playerX, levels[levelIndex].playerY];
+let oldPlayerPos = [levels[levelIndex].playerX, levels[levelIndex].playerY]
 
 const nextLevel = async () => {
-  await game.playSound("POWERUP");
-  levelIndex = (levelIndex + 1) % levels.length;
-  const level = levels[levelIndex];
-  game.loadMap(level.map, [level.playerX, level.playerY]);
-  oldPlayerPos = [levels[levelIndex].playerX, levels[levelIndex].playerY];
-};
+	await game.playSound('POWERUP')
+	levelIndex = (levelIndex + 1) % levels.length
+	const level = levels[levelIndex]
+	game.loadMap(level.map, [level.playerX, level.playerY])
+	oldPlayerPos = [levels[levelIndex].playerX, levels[levelIndex].playerY]
+}
 
 const loose = () => {
-  game.playSound("FALL");
-  game.end();
-};
+	game.playSound('FALL')
+	game.end()
+}
 
 const directions = {
-  "^": [0, -1],
-  v: [0, 1],
-  ">": [1, 0],
-  "<": [-1, 0],
-};
+	'^': [0, -1],
+	v: [0, 1],
+	'>': [1, 0],
+	'<': [-1, 0],
+}
 
 async function update() {
-  const arrows = [
-    ...game.getAll("<"),
-    ...game.getAll(">"),
-    ...game.getAll("v"),
-    ...game.getAll("^"),
-  ];
-  const [playerX, playerY] = game.player.position;
-  let gameOver = false;
-  arrows.forEach((el) => {
-    const [posX, posY] = el.position;
-    const symbol = el.symbol;
-    if (!(symbol === "<" || symbol === ">" || symbol === "^" || symbol === "v"))
-      return;
-    const [dirX, dirY] = symbol ? directions[symbol] : [0, 0];
-    const nextCell = game.getCell(posX + dirX, posY + dirY);
-    if (nextCell.symbol !== ".") {
-      const newSymbols = {
-        "<": ">",
-        ">": "<",
-        "^": "v",
-        v: "^",
-      };
-      if (playerX === posX && playerY === posY) {
-        gameOver = true;
-      }
-      //@ts-ignore
-      game.addToCell(posX, posY, newSymbols[symbol]);
-    } else {
-      if (
-        (playerX === posX + dirX && playerY === posY + dirY) ||
-        (oldPlayerPos[0] === posX + dirX &&
-          oldPlayerPos[1] === posY + dirY &&
-          playerX === posX &&
-          playerY === posY)
-      ) {
-        gameOver = true;
-      }
-      game.addToCell(...el.position, ".");
-      game.addToCell(posX + dirX, posY + dirY, symbol);
-    }
-  });
-  if (gameOver) loose();
-  oldPlayerPos = game.player.position;
+	const arrows = [
+		...game.getAll('<'),
+		...game.getAll('>'),
+		...game.getAll('v'),
+		...game.getAll('^'),
+	]
+	const [playerX, playerY] = game.player.position
+	let gameOver = false
+	arrows.forEach((el) => {
+		const [posX, posY] = el.position
+		const symbol = el.symbol
+		if (!(symbol === '<' || symbol === '>' || symbol === '^' || symbol === 'v'))
+			return
+		const [dirX, dirY] = symbol ? directions[symbol] : [0, 0]
+		const nextCell = game.getCell(posX + dirX, posY + dirY)
+		if (nextCell.symbol !== '.') {
+			const newSymbols = {
+				'<': '>',
+				'>': '<',
+				'^': 'v',
+				v: '^',
+			}
+			if (playerX === posX && playerY === posY) {
+				gameOver = true
+			}
+			//@ts-ignore
+			game.addToCell(posX, posY, newSymbols[symbol])
+		} else {
+			if (
+				(playerX === posX + dirX && playerY === posY + dirY) ||
+				(oldPlayerPos[0] === posX + dirX &&
+					oldPlayerPos[1] === posY + dirY &&
+					playerX === posX &&
+					playerY === posY)
+			) {
+				gameOver = true
+			}
+			game.addToCell(...el.position, '.')
+			game.addToCell(posX + dirX, posY + dirY, symbol)
+		}
+	})
+	if (gameOver) loose()
+	oldPlayerPos = game.player.position
 }
 
 const game = createGame({
-  player: {
-    position: [levels[levelIndex].playerX, levels[levelIndex].playerY],
-    sprite: sprites.player,
-  },
-  templates: {
-    "#": { sprite: 2 },
-    ".": {
-      sprite: 1,
-      solid: false,
-      onEnter: update,
-    },
-    "*": {
-      onCollide: loose,
-      sprite: sprites.bomb,
-    },
-    "^": {
-      sprite: sprites.top,
-      solid: false,
-      onEnter: update,
-    },
-    v: {
-      sprite: sprites.bottom,
-      solid: false,
-      onEnter: update,
-    },
-    ">": {
-      sprite: sprites.right,
-      solid: false,
-      onEnter: update,
-    },
-    "<": {
-      sprite: sprites.left,
-      solid: false,
-      onEnter: update,
-    },
-    $: {
-      sprite: sprites.win,
-      solid: false,
-      onEnter: nextLevel,
-    },
-  },
-  map: levels[levelIndex].map,
-  cellHeight: 5,
-  cellWidth: 5,
-  background: 1,
-  screenHeight: 16,
-  screenWidth: 16,
-});
+	player: {
+		position: [levels[levelIndex].playerX, levels[levelIndex].playerY],
+		sprite: sprites.player,
+	},
+	templates: {
+		'#': { sprite: 2 },
+		'.': {
+			sprite: 1,
+			solid: false,
+			onEnter: update,
+		},
+		'*': {
+			onCollide: loose,
+			sprite: sprites.bomb,
+		},
+		'^': {
+			sprite: sprites.top,
+			solid: false,
+			onEnter: update,
+		},
+		v: {
+			sprite: sprites.bottom,
+			solid: false,
+			onEnter: update,
+		},
+		'>': {
+			sprite: sprites.right,
+			solid: false,
+			onEnter: update,
+		},
+		'<': {
+			sprite: sprites.left,
+			solid: false,
+			onEnter: update,
+		},
+		$: {
+			sprite: sprites.win,
+			solid: false,
+			onEnter: nextLevel,
+		},
+	},
+	map: levels[levelIndex].map,
+	cellHeight: 5,
+	cellWidth: 5,
+	background: 1,
+	screenHeight: 16,
+	screenWidth: 16,
+})

@@ -1,6 +1,6 @@
-import { createGame, createSound } from "odyc";
+import { createGame, createSound } from 'odyc'
 const sprites = {
-  player: `
+	player: `
 ...88....
 ...88....
 .000000..
@@ -18,7 +18,7 @@ const sprites = {
 ..0..0...
 .00..00..
 `,
-  playerH: `
+	playerH: `
 ...88....
 ...88....
 .000000..
@@ -36,7 +36,7 @@ const sprites = {
 ..0..0...
 .00..00..
 `,
-  playerG: `
+	playerG: `
 ...88....
 ...88....
 .000000..
@@ -54,7 +54,7 @@ const sprites = {
 ..0..0...
 .00..00..
 `,
-  dog: `
+	dog: `
 .........
 .........
 .........
@@ -72,7 +72,7 @@ const sprites = {
 .99...99.
 .9.....9.
 `,
-  doghurted: `
+	doghurted: `
 .........
 .........
 .........
@@ -90,7 +90,7 @@ const sprites = {
 ..9.9499.
 499444494
 `,
-  dogdead: `
+	dogdead: `
 .........
 .........
 .........
@@ -108,7 +108,7 @@ const sprites = {
 .9999999.
 999999999
 `,
-  boss: `
+	boss: `
 .........
 .......99
 00.....88
@@ -126,7 +126,7 @@ const sprites = {
 ......7.7
 ......7.7
 `,
-  badguy: `
+	badguy: `
 .........
 .......99
 00.....88
@@ -144,7 +144,7 @@ const sprites = {
 ......6.6
 ......6.6
 `,
-  dead: `
+	dead: `
 .........
 .........
 .........
@@ -162,74 +162,74 @@ const sprites = {
 .00.4.444
 ..8885444
 `,
-};
+}
 
 const game = createGame({
-  player: {
-    sprite: sprites.player,
-    position: [4, 5],
-  },
-  templates: {
-    "-": {},
-    X: {
-      sprite: 9,
-    },
-    D: {
-      sprite: sprites.dog,
-      dialog: "Waf Waf",
-      onCollide: (target) => {
-        if (target.sprite === sprites.doghurted) {
-          target.sprite = sprites.dogdead;
-          game.getCell(14, 5).remove();
-          game.player.sprite = sprites.playerG;
-        }
-      },
-    },
-    b: {
-      sprite: sprites.boss,
-      onCollide: async (target) => {
-        await game.playSound("LASER", 666);
-        await game.playSound("LASER", 666);
-        game.player.sprite = sprites.playerH;
-        game.setAll("D", {
-          sprite: sprites.doghurted,
-          dialog: null,
-        });
-        await game.openDialog("Ca vous apprendra!");
-        game.addToCell(...target.position, "B");
-      },
-    },
-    B: {
-      sprite: sprites.boss,
-      dialog: "Tu ferai mieux de t'occuper de ton chien.",
-    },
-    e: {
-      sprite: sprites.badguy,
-      dialog: "AaaAAArgh",
-      sound: createSound("LASER", 666),
-      onCollide: (target) => {
-        target.solid = false;
-        target.dialog = null;
-        target.sound = null;
-        target.sprite = sprites.dead;
-      },
-    },
-    Z: {
-      sprite: sprites.boss,
-      onCollide: async (target) => {
-        await game.openDialog("Pardon, je ne savais pas qui t'étais");
-        await game.playSound("FALL", 534633);
-        await game.openDialog("Aaaargh");
-        target.sprite = sprites.dead;
-        target.solid = false;
-      },
-    },
-    $: {
-      solid: false,
-      end: "Fin...",
-    },
-  },
-  map: `
+	player: {
+		sprite: sprites.player,
+		position: [4, 5],
+	},
+	templates: {
+		'-': {},
+		X: {
+			sprite: 9,
+		},
+		D: {
+			sprite: sprites.dog,
+			dialog: 'Waf Waf',
+			onCollide: (target) => {
+				if (target.sprite === sprites.doghurted) {
+					target.sprite = sprites.dogdead
+					game.getCell(14, 5).remove()
+					game.player.sprite = sprites.playerG
+				}
+			},
+		},
+		b: {
+			sprite: sprites.boss,
+			onCollide: async (target) => {
+				await game.playSound('LASER', 666)
+				await game.playSound('LASER', 666)
+				game.player.sprite = sprites.playerH
+				game.setAll('D', {
+					sprite: sprites.doghurted,
+					dialog: null,
+				})
+				await game.openDialog('Ca vous apprendra!')
+				game.addToCell(...target.position, 'B')
+			},
+		},
+		B: {
+			sprite: sprites.boss,
+			dialog: "Tu ferai mieux de t'occuper de ton chien.",
+		},
+		e: {
+			sprite: sprites.badguy,
+			dialog: 'AaaAAArgh',
+			sound: createSound('LASER', 666),
+			onCollide: (target) => {
+				target.solid = false
+				target.dialog = null
+				target.sound = null
+				target.sprite = sprites.dead
+			},
+		},
+		Z: {
+			sprite: sprites.boss,
+			onCollide: async (target) => {
+				await game.openDialog("Pardon, je ne savais pas qui t'étais")
+				await game.playSound('FALL', 534633)
+				await game.openDialog('Aaaargh')
+				target.sprite = sprites.dead
+				target.solid = false
+			},
+		},
+		$: {
+			solid: false,
+			end: 'Fin...',
+		},
+	},
+	map: `
 	................	................	................
 	................	................	................
 	................	................	................
@@ -240,11 +240,11 @@ const game = createGame({
 	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX
 	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX
 		`,
-  background: 3,
-  cellHeight: 16,
-  cellWidth: 9,
-  screenHeight: 9,
-  screenWidth: 16,
-  title: `
+	background: 3,
+	cellHeight: 16,
+	cellWidth: 9,
+	screenHeight: 9,
+	screenWidth: 16,
+	title: `
 * * JOHN WICK * * `,
-});
+})
