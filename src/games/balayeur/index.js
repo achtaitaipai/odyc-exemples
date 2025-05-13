@@ -162,6 +162,6 @@ Tout est propre`)
 	cellWidth,
 	cellHeight,
 	background: 0,
-	title: 'Le balayeur aux chaussures sales.',
+	// title: 'Le balayeur aux chaussures sales.',
 	volume: 0.04,
 })

@@ -1,14 +1,15 @@
 import { createGame, createSound } from 'odyc'
 
+document.body.style.setProperty('background', 'black')
 let levelIndex = 0
 
 const sprites = {
 	player: `
-    00000
-    0.0.0
-    00000
-    .0.0.
-    .0.0.
+    11111
+    1.1.1
+    11111
+    .1.1.
+    .1.1.
   `,
 	left: `
     ..4..
@@ -288,7 +289,7 @@ const game = createGame({
 	templates: {
 		'#': { sprite: 2 },
 		'.': {
-			sprite: 1,
+			sprite: 0,
 			solid: false,
 			onEnter: update,
 		},
@@ -325,7 +326,14 @@ const game = createGame({
 	map: levels[levelIndex].map,
 	cellHeight: 5,
 	cellWidth: 5,
-	background: 1,
+	background: 0,
 	screenHeight: 16,
 	screenWidth: 16,
+	filter: {
+		name: 'neon',
+		settings: {
+			scale: 0.8,
+			intensity: 0.6,
+		},
+	},
 })
