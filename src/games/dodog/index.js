@@ -97,8 +97,5 @@ const game = createGame({
 	background: 7,
 	screenWidth: 9,
 	screenHeight: 9,
-	filter: {
-		name: 'fractal',
-	},
 	title: '>> Dodog <<',
 })
