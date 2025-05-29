@@ -205,7 +205,7 @@ const game = createGame({
 		},
 		e: {
 			sprite: sprites.badguy,
-			dialog: 'AaaAAArgh',
+			dialog: '%AaaAAArgh%',
 			sound: createSound('LASER', 666),
 			onCollide: (target) => {
 				target.solid = false
@@ -245,6 +245,5 @@ const game = createGame({
 	cellWidth: 9,
 	screenHeight: 9,
 	screenWidth: 16,
-	title: `
-* * JOHN WICK * * `,
+	title: `* * JOHN WICK * * `,
 })
