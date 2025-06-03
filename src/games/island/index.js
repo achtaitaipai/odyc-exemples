@@ -1,4 +1,5 @@
 import { createGame } from 'odyc'
+
 const sprites = {
 	player: `
     ...11...
