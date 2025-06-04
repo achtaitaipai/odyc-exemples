@@ -176,7 +176,7 @@ const game = createGame({
 		},
 		D: {
 			sprite: sprites.dog,
-			dialog: 'Waf Waf',
+			dialog: 'Woof Woof',
 			onCollide: (target) => {
 				if (target.sprite === sprites.doghurted) {
 					target.sprite = sprites.dogdead
@@ -195,13 +195,13 @@ const game = createGame({
 					sprite: sprites.doghurted,
 					dialog: null,
 				})
-				await game.openDialog('Ca vous apprendra!')
+				await game.openDialog('That will teach you!')
 				game.addToCell(...target.position, 'B')
 			},
 		},
 		B: {
 			sprite: sprites.boss,
-			dialog: "Tu ferai mieux de t'occuper de ton chien.",
+			dialog: "You'd better take care of your dog.",
 		},
 		e: {
 			sprite: sprites.badguy,
@@ -217,7 +217,7 @@ const game = createGame({
 		Z: {
 			sprite: sprites.boss,
 			onCollide: async (target) => {
-				await game.openDialog("Pardon, je ne savais pas qui t'étais")
+				await game.openDialog("Sorry, I didn't know who you were")
 				await game.playSound('FALL', 534633)
 				await game.openDialog('Aaaargh')
 				target.sprite = sprites.dead
@@ -226,7 +226,7 @@ const game = createGame({
 		},
 		$: {
 			solid: false,
-			end: 'Fin...',
+			end: 'The End...',
 		},
 	},
 	map: `
@@ -239,7 +239,7 @@ const game = createGame({
 	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX
 	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX
 	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX	XXXXXXXXXXXXXXXX
-		`,
+	`,
 	background: 3,
 	cellHeight: 16,
 	cellWidth: 9,
