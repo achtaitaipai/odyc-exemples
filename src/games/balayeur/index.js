@@ -1,11 +1,9 @@
-import { createGame, createSound } from 'odyc'
 const cellWidth = 9
 const cellHeight = 8
 const screenWidth = 8
 const screenHeight = 8
 
-/**@type {{map:string, playerPos:[number, number]}[]} */
-const levels = [
+const levels = /**@type {const}*/ ([
 	{
 		map: `
 		........
@@ -17,7 +15,7 @@ const levels = [
 		.######.
 		........
 	  `,
-		playerPos: [3, 0],
+		playerPos: [3, 0]
 	},
 	{
 		map: `
@@ -30,7 +28,7 @@ const levels = [
 		.######.
 		........
 	  `,
-		playerPos: [3, 0],
+		playerPos: [3, 0]
 	},
 	{
 		map: `
@@ -43,7 +41,7 @@ const levels = [
 		.###X##.
 		........
 		`,
-		playerPos: [3, 0],
+		playerPos: [3, 0]
 	},
 	{
 		map: `
@@ -56,7 +54,7 @@ const levels = [
 		.#X####.
 		........
 	  `,
-		playerPos: [3, 0],
+		playerPos: [3, 0]
 	},
 	{
 		map: `
@@ -69,9 +67,9 @@ const levels = [
 	  .######.
 	  ........
 	`,
-		playerPos: [3, 0],
-	},
-]
+		playerPos: [3, 0]
+	}
+])
 
 let levelIndex = 0
 
@@ -106,13 +104,13 @@ const sprites = {
 		020000020
 		022222220
 		000000000
-	`,
+	`
 }
 
 const game = createGame({
 	player: {
 		sprite: sprites.player,
-		position: levels[0].playerPos,
+		position: levels[0].playerPos
 	},
 	templates: {
 		'.': {
@@ -127,34 +125,30 @@ const game = createGame({
 				levelIndex = (levelIndex + 1) % levels.length
 				const { map, playerPos } = levels[levelIndex]
 				game.loadMap(map, [...playerPos])
-				if (levelIndex === 0)
-					game.end(`
-Bravo
-
-Tout est propre`)
-			},
+				if (levelIndex === 0) game.end('Nice job!\n\nEverything’s clean!')
+			}
 		},
 		'#': {
 			sprite: sprites.dirtyFloor,
 			solid: false,
-			sound: createSound('BLIP', 424245453),
+			sound: ['BLIP', 424245453],
 			onEnter: function (target) {
 				game.addToCell(...target.position, '$')
-			},
+			}
 		},
 		$: {
 			sprite: sprites.cleanFloor,
 			solid: false,
-			sound: createSound('FALL', 424245453),
+			sound: ['FALL', 424245453],
 			onEnter: async function (target) {
 				game.addToCell(...target.position, '#')
-				await game.openDialog("Oh non j'ai resali...")
+				await game.openDialog('Oh no, I got it dirty again!')
 				game.end()
-			},
+			}
 		},
 		X: {
-			sprite: sprites.wall,
-		},
+			sprite: sprites.wall
+		}
 	},
 	map: levels[0].map,
 	screenWidth,
@@ -162,6 +156,6 @@ Tout est propre`)
 	cellWidth,
 	cellHeight,
 	background: 0,
-	// title: 'Le balayeur aux chaussures sales.',
 	volume: 0.04,
+	title: 'The sweeper with the dirty shoes'
 })
