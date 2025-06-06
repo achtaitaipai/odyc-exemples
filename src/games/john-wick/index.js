@@ -1,4 +1,4 @@
-import { createGame, createSound } from 'odyc'
+import { createGame } from 'odyc'
 const sprites = {
 	player: `
 ...88....
@@ -206,7 +206,7 @@ const game = createGame({
 		e: {
 			sprite: sprites.badguy,
 			dialog: '%AaaAAArgh%',
-			sound: createSound('LASER', 666),
+			sound: ['LASER', 666],
 			onCollide: (target) => {
 				target.solid = false
 				target.dialog = null

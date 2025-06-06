@@ -1,4 +1,4 @@
-import { createGame, createSound } from 'odyc'
+import { createGame } from 'odyc'
 const fragment = `
 precision mediump float;
 uniform sampler2D u_texture;

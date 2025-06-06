@@ -1,4 +1,4 @@
-import { createGame, createSound } from 'odyc'
+import { createGame } from 'odyc'
 const sketuve = `
 		...4.44..
 		..44444..
@@ -189,7 +189,7 @@ const game = createGame({
 		..000000.
 	`,
 			dialog: 'Abracadabra un chat tu seras!',
-			sound: createSound('POWERUP', 1988),
+			sound: ['POWERUP', 1988],
 			onCollide: function (target) {
 				game.player.sprite = chat
 				target.remove()
@@ -258,7 +258,7 @@ const game = createGame({
 				})
 			},
 			dialog: 'Oh, un bel os, je le garde!',
-			sound: createSound('PICKUP', 9),
+			sound: ['PICKUP', 9],
 		},
 		//décor
 		d: {
@@ -277,7 +277,7 @@ const game = createGame({
 			onEnter: function (target) {
 				target.remove()
 			},
-			sound: createSound('HIT', 9),
+			sound: ['HIT', 9],
 		},
 		//piege
 		p: {
@@ -329,7 +329,7 @@ const game = createGame({
 		..55.....
 	`,
 			dialog: 'Chic! Une clé en or, je vais surement pouvoir la vendre chère!',
-			sound: createSound('PICKUP', 5),
+			sound: ['PICKUP', 5],
 			onCollide: function (target) {
 				target.remove()
 			},

@@ -1,4 +1,4 @@
-import { createGame, createSound } from 'odyc'
+import { createGame } from 'odyc'
 
 document.body.style.setProperty('background', 'black')
 let levelIndex = 0
