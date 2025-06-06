@@ -114,10 +114,10 @@ const game = createGame({
 				const [posX, posY] = game.player.position
 				game.player.position = [posX - 7, posY]
 				game.addToCell(10, 11, 'b')
-				game.openMessage([
+				game.openMessage(
 					'Le courant est trop fort pour repartir',
 					"Vous envoyez un appel à l'aide et attendez...",
-				])
+				)
 			},
 		},
 		T: {
@@ -135,10 +135,7 @@ const game = createGame({
 		b: {
 			sprite: sprites.bottle,
 			onCollide: function (target) {
-				game.openMessage([
-					"Un appel à l'aide...",
-					"Il faut retrouver l'auteur.",
-				])
+				game.openMessage("Un appel à l'aide...", "Il faut retrouver l'auteur.")
 				game.addToCell(...target.position, '.')
 			},
 		},
