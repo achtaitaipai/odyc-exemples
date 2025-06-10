@@ -49,7 +49,7 @@ const game = createGame({
 			onCollide() {
 				const [x] = game.player.position
 				game.player.position = [x, 15]
-				game.openDialog('au boulot!')
+				game.openDialog(t('go'))
 			},
 		},
 		D: { sprite: 0 },
@@ -258,14 +258,7 @@ function patient() {
 		}
 
 		const chat = async () => {
-			let dialog = [
-				getStatusText(mood, [
-					t('check_mood_critical'),
-					t('check_mood_low'),
-					t('check_mood_mid'),
-					t('check_mood_high'),
-				]),
-			]
+			let dialog = [t('talk')]
 
 			const goodTalk = chance(9 / 10) || chance(mood / 100)
 
