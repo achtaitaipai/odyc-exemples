@@ -18,7 +18,7 @@ export const DIALOGUES_EN = {
 	talk_bad: [
 		'<5>He seems a bit uneasy after the talk.<5>',
 		'<5>His gaze drifts away, lost in thought.<5>',
-		'<5>You’re not sure the exchange helped him much.<5>',
+		"<5>You're not sure the exchange helped him much.<5>",
 		'<5>Something about his posture feels unsettled.<5>',
 	],
 	check_health_high: [
@@ -29,16 +29,16 @@ export const DIALOGUES_EN = {
 	check_health_mid: [
 		'<5>He seems a bit worn, but holding up.<5>',
 		'<5>He looks tired, but nothing too serious.<5>',
-		'<5>He’s doing okay, all things considered.<5>',
+		"<5>He's doing okay, all things considered.<5>",
 	],
 	check_health_low: [
-		'<6>He’s clearly not feeling his best.<6>',
+		"<6>He's clearly not feeling his best.<6>",
 		'<6>He looks pale and unsteady.<6>',
-		'<6>There’s a heaviness in his movements.<6>',
+		"<6>There's a heaviness in his movements.<6>",
 	],
 	check_health_critical: [
 		'<4>His condition is worrying.<4>',
-		'<4>He’s barely standing.<4>',
+		"<4>He's barely standing.<4>",
 		'<4>Something is seriously wrong with him.<4>',
 	],
 	check_mood_high: [
@@ -54,7 +54,7 @@ export const DIALOGUES_EN = {
 	check_mood_low: [
 		'<6>Something feels off in his expression.<6>',
 		'<6>He seems distracted, distant.<6>',
-		'<6>There’s a shadow behind his gaze.<6>',
+		"<6>There's a shadow behind his gaze.<6>",
 	],
 	check_mood_critical: [
 		'<4>He seems lost in dark thoughts.<4>',
@@ -72,8 +72,8 @@ export const DIALOGUES_EN = {
 		"Doesn't seem to have made much of a difference.",
 		'He remains unchanged.',
 		'No visible improvement for now.',
-		'It didn’t seem to help this time.',
-		'He doesn’t react much to your efforts.',
+		"It didn't seem to help this time.",
+		"He doesn't react much to your efforts.",
 	],
 	medicate_good: [
 		'<7>The treatment seems to be working.<7>',
@@ -83,10 +83,10 @@ export const DIALOGUES_EN = {
 		'<7>He nods with a faint sense of relief.<7>',
 	],
 	medicate_bad: [
-		'<4>Something doesn’t feel right.<4>',
-		'<4>His condition isn’t improving… quite the opposite.<4>',
+		"<4>Something doesn't feel right.<4>",
+		"<4>His condition isn't improving… quite the opposite.<4>",
 		'<4>You notice a worrying change in his expression.<4>',
-		'<4>The treatment doesn’t seem to take effect.<4>',
+		"<4>The treatment doesn't seem to take effect.<4>",
 		'<4>A sense of unease settles in the air.<4>',
 	],
 }
@@ -97,21 +97,21 @@ export const DIALOGUES_FR = {
 		"<4>Il n'est plus.<4>",
 		'<4>Aucun signe de vie.<4>',
 		'<4>Un dernier souffle... puis le silence.<4>',
-		'<4>Son voyage s’arrête ici.<4>',
+		"<4>Son voyage s'arrête ici.<4>",
 		'<4>On ne peut plus rien faire.<4>',
-		'<4>La mort l’a emporté.<4>',
+		"<4>La mort l'a emporté.<4>",
 		'<4>Son corps repose dans une étrange quiétude.<4>',
 	],
 	talk_good: [
 		'<7>Il semble avoir apprécié ce moment.<7>',
 		'<7>Un léger sourire flotte sur son visage.<7>',
 		'<7>Il hoche la tête avec reconnaissance.<7>',
-		'<7>On dirait qu’il se sent un peu mieux.<7>',
+		"<7>On dirait qu'il se sent un peu mieux.<7>",
 	],
 	talk_bad: [
 		'<5>Il paraît troublé par la discussion.<5>',
-		'<5>Son regard s’éloigne, perdu dans ses pensées.<5>',
-		'<5>Vous doutez que l’échange lui ait été bénéfique.<5>',
+		"<5>Son regard s'éloigne, perdu dans ses pensées.<5>",
+		"<5>Vous doutez que l'échange lui ait été bénéfique.<5>",
 		'<5>Son attitude semble toujours agitée.<5>',
 	],
 	check_health_high: [
@@ -120,12 +120,12 @@ export const DIALOGUES_FR = {
 		'<7>Il dégage une belle vitalité.<7>',
 	],
 	check_health_mid: [
-		'<5>Il a l’air un peu fatigué, mais ça va.<5>',
-		'<5>Quelques signes d’usure, rien de grave.<5>',
-		'<5>Dans l’ensemble, son état reste acceptable.<5>',
+		"<5>Il a l'air un peu fatigué, mais ça va.<5>",
+		"<5>Quelques signes d'usure, rien de grave.<5>",
+		"<5>Dans l'ensemble, son état reste acceptable.<5>",
 	],
 	check_health_low: [
-		'<6>Il n’a clairement pas bonne mine.<6>',
+		"<6>Il n'a clairement pas bonne mine.<6>",
 		'<6>Sa démarche est hésitante.<6>',
 		'<6>Il semble affaibli.<6>',
 	],
@@ -137,7 +137,7 @@ export const DIALOGUES_FR = {
 	check_mood_high: [
 		'<7>Une lueur brille dans ses yeux.<7>',
 		'<7>Sa voix a gagné en légèreté.<7>',
-		'<7>Il rayonne d’une douce assurance.<7>',
+		"<7>Il rayonne d'une douce assurance.<7>",
 	],
 	check_mood_mid: [
 		'<5>Il garde la tête haute.<5>',
@@ -147,17 +147,17 @@ export const DIALOGUES_FR = {
 	check_mood_low: [
 		'<6>Son expression trahit un malaise.<6>',
 		'<6>Il paraît ailleurs, préoccupé.<6>',
-		'<6>Un voile d’ombre passe dans son regard.<6>',
+		"<6>Un voile d'ombre passe dans son regard.<6>",
 	],
 	check_mood_critical: [
 		'<4>Il semble perdu dans de sombres pensées.<4>',
 		'<4>Son regard est lourd de tristesse.<4>',
-		'<4>Un désespoir silencieux l’entoure.<4>',
+		"<4>Un désespoir silencieux l'entoure.<4>",
 	],
 	care_good: [
 		'<7>Il semble aller un peu mieux.<7>',
-		'<7>Son teint s’éclaircit légèrement.<7>',
-		'<7>Ça a l’air de lui avoir fait du bien.<7>',
+		"<7>Son teint s'éclaircit légèrement.<7>",
+		"<7>Ça a l'air de lui avoir fait du bien.<7>",
 		'<7>Il paraît un peu plus détendu.<7>',
 		'<7>Un petit soulagement se lit sur son visage.<7>',
 	],
@@ -165,21 +165,21 @@ export const DIALOGUES_FR = {
 		'Cela ne semble pas avoir changé grand-chose.',
 		'Aucun changement visible.',
 		'Il reste dans le même état.',
-		'Ça n’a pas l’air d’avoir aidé cette fois.',
-		'Vos efforts ne semblent pas l’atteindre.',
+		"Ça n'a pas l'air d'avoir aidé cette fois.",
+		"Vos efforts ne semblent pas l'atteindre.",
 	],
 	medicate_good: [
 		'<7>Le traitement semble efficace.<7>',
 		'<7>Sa respiration se fait plus régulière.<7>',
-		'<7>Les symptômes s’atténuent visiblement.<7>',
+		"<7>Les symptômes s'atténuent visiblement.<7>",
 		'<7>Une part de son énergie revient.<7>',
 		'<7>Il vous regarde avec un soupçon de soulagement.<7>',
 	],
 	medicate_bad: [
 		'<4>Quelque chose cloche.<4>',
-		'<4>Son état ne s’améliore pas… voire empire.<4>',
+		"<4>Son état ne s'améliore pas… voire empire.<4>",
 		'<4>Vous remarquez un changement inquiétant.<4>',
 		'<4>Le traitement ne semble avoir aucun effet.<4>',
-		'<4>Une tension étrange flotte dans l’air.<4>',
+		"<4>Une tension étrange flotte dans l'air.<4>",
 	],
 }

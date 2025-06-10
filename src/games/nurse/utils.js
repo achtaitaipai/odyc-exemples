@@ -9,6 +9,15 @@ export function chance(ratio = 0.5) {
 }
 
 /**
+ * @param {number}min
+ * @param {number}value
+ * @param {number}max
+ */
+export function clamp(min, value, max) {
+	return Math.max(min, Math.min(value, max))
+}
+
+/**
  *
  * @param {number} min
  * @param {number} [max]
@@ -33,6 +42,19 @@ export function pick(...array) {
 	}
 	const index = Math.floor(Math.random() * array.length)
 	return array[index]
+}
+
+/**
+ *@param {number} value
+ *@param {string[]} texts
+ */
+export function getStatusText(value, texts) {
+	const index = clamp(
+		0,
+		Math.floor((value / 100) * texts.length),
+		texts.length - 1,
+	)
+	return texts[index]
 }
 
 /**

@@ -1,8 +1,8 @@
 import { createGame } from 'odyc'
-import { chance, genSprite, pick, randInt } from './utils'
-import { DIALOGUES_EN, DIALOGUES_FR } from './dialogues'
+import { chance, clamp, genSprite, getStatusText, pick, randInt } from './utils'
+import { t } from './translations'
 
-let time = 0
+let turn = 0
 
 const game = createGame({
 	background: 2,
@@ -10,191 +10,326 @@ const game = createGame({
 		sprite: `
 			...33...
 			..3333..
-			..9889..
-			.393393.
+			..0880..
+			.303303.
 			3.3333.3
 			8.3333.8
 			..3..3..
 			..0..0..
 			`,
-		position: [3, 9],
+		position: [9, 23],
 	},
 	templates: {
+		h: {
+			sprite: `
+			11111111
+			11114111
+			11114111
+			11114444
+			11114111
+			11114111
+			11111111
+			11111111
+			`,
+		},
+		H: {
+			sprite: `
+			11111111
+			11141111
+			11141111
+			44441111
+			11141111
+			11141111
+			11111111
+			11111111
+			`,
+		},
+		d: {
+			sprite: 0,
+			onCollide() {
+				const [x] = game.player.position
+				game.player.position = [x, 15]
+				game.openDialog('au boulot!')
+			},
+		},
+		D: { sprite: 0 },
 		x: {
 			sprite: 1,
 		},
-		v: {
+		b: {
 			sprite: `
-      .
-      .
-      .
-      .
-      .
-      .
-      00000000
-      00000000
-      `,
+		  99999999
+		  92222229
+		  12222221
+		  12222221
+		  11111111
+		  77777777
+		  77777777
+		  77777777
+	  `,
+		},
+		B: {
+			sprite: `
+		  77777777
+		  77777777
+		  99999999
+		  9......9
+		  ........
+		  ........
+		  ........
+		  ........
+		  ........
+	  `,
 			solid: false,
 		},
-		'^': {
+		'<': {
 			sprite: `
-      00000000
-      00000000
-      .
-      .
-      .
-      .
-      .
-      .
-      `,
+			00......
+			00......
+			00......
+			00......
+			00......
+			00......
+			00......
+			00......
+			`,
 			solid: false,
 		},
-		p: () => {
-			let health = randInt(15, 60)
-			let happiness = randInt(15, 70)
-			let lastUpdate = 0
+		'>': {
+			sprite: `
+			......00
+			......00
+			......00
+			......00
+			......00
+			......00
+			......00
+			......00
+			`,
+			solid: false,
+		},
+		t: () => {
+			const tvOn = `
+			11111111
+			00000000
+			07722660
+			06072550
+			00805560
+			08885880
+			00000000
+			11111111
+			`
+			const tvOff = ` 
+			11111111
+			00000000
+			02222220
+			02222220
+			02222220
+			02222220
+			00000000
+			11111111
+			`
 			return {
-				sprite: genSprite(8, 8),
-				async onCollide(target) {
-					if (health <= 0 || happiness <= 0) {
-						game.playSound('FALL', 68)
-						target.remove()
-						await game.openMessage(pick(...DIALOGUES.death))
-
-						return
-					}
-					time++
-					if (lastUpdate) {
-						const delay = (time - lastUpdate) * 10
-						if (!chance(health / 100)) health -= randInt(delay)
-						if (!chance(happiness / 100)) health -= randInt(delay)
-						if (!chance(health / 100)) happiness -= randInt(delay)
-						if (!chance(happiness / 100)) happiness -= randInt(delay)
-					}
-					lastUpdate = time
-					const choice = await game.prompt(...DIALOGUES.menu)
-					switch (choice) {
-						case 0:
-							check(health, happiness)
-							break
-						case 1:
-							const goodTalk = chance((health + happiness) / 100)
-							if (goodTalk) {
-								happiness += 15
-							} else {
-								happiness -= 10
-							}
-							talk(goodTalk)
-							break
-						case 2:
-							const goodCare = chance((health + happiness) / 50)
-							if (goodCare) {
-								health += 10
-								happiness += 10
-							}
-							takeCare(goodCare)
-							break
-						case 3:
-							const goodMedicate = chance(Math.min(0.9, (health / 100) * 1.9))
-							if (goodMedicate) health += 15
-							else health = Math.max(Math.floor(health / 4), health - 50)
-							medicate(goodMedicate)
-							break
-					}
+				sprite: pick(tvOn, tvOff),
+				sound: ['BLIP', 36],
+				onCollide(t) {
+					t.sprite = t.sprite === tvOn ? tvOff : tvOn
 				},
 			}
 		},
+		f: {
+			sprite: `
+			........
+			...717..
+			.171517.
+			15171717
+			.1717151
+			..15171.
+			...199..
+			...999..
+			`,
+		},
+		'.': {
+			solid: false,
+			onCollide() {
+				turn++
+			},
+		},
+		p: patient,
 	},
 	map: `
-  xxxxxxxxxxxxxxxxxxxxxxxx
-  x....xx....xx..p.xx....x
-  x..p.xx....xx....xx....x
-  x....xx.p..xx....xx.p..x
-  x....xx....xx....xx....x
-	xxxvxxxxxvxxxxxvxxxxxvxx
-	xxx^xxxxx^xxxxx^xxxxx^xx
-	x......................x
-	x......................x
-	x......................x
-	x......................x
-	xxxvxxxxxvxxxxxvxxxxxvxx
-	xxx^xxxxx^xxxxx^xxxxx^xx
-  x.p..xx....xx....xx....x
-  x....xx....xx.p..xx....x
-  x....xx....xx....xx.p..x
-  x....xx.p..xx....xx....x
-  xxxxxxxxxxxxxxxxxxxxxxxx
-	`,
+  xxxxxx  xxxxxx  xxxxxx
+  xb...x  x....x  x...bx
+  xB...x  x....x  x...Bx
+  x.p..>  <....>  <....x
+  x....x  x....x  x..p.x
+  xxtxxx  x....x  xxtxxx
+
+  xxxxxx  x....x  xxxxxx
+  xb...x  x....x  x.p.bx
+  xB...>  <....>  <...Bx
+  x..p.x  x....x  x....x
+  x....x  x....x  x..f.x
+  xxxxxx  x....x  xxxxxx
+
+  xxxxxx  x....x  xxtxxx
+  xb..fx  x....x  x...bx
+  xB...>  <....>  <...Bx
+  x..p.x  x....x  x.p..x
+  x....x  x....x  x....x
+  xxxxxx  xxDDxx  xxxxxx
+
+
+  xxxxxx	.xhHx.  xxxxxx
+	xxxxxx	xxxxxx  xxxxxx
+  xxxxxx	xxddxx  xxxxxx
+  xxxxxx	......  xxxxxx
+  xxxxxx	......  xxxxxx
+  xxxxxx	......  xxxxxx
+  `,
 	screenWidth: 6,
 	screenHeight: 6,
 })
-let DIALOGUES = DIALOGUES_EN
-game.prompt('English', 'Français').then((res) => {
-	if (res === 1) DIALOGUES = DIALOGUES_FR
-})
 
-/**
- *@param{boolean}good
- */
-function talk(good) {
-	let dialog = ''
+/**@returns {import('odyc').Template<'p'>}*/
+function patient() {
+	{
+		let hp = randInt(15, 60)
+		let mood = randInt(15, 100)
+		let fullness = randInt(80, 100)
 
-	if (good) {
-		dialog += pick(...DIALOGUES.talk_good)
-	} else {
-		dialog += pick(...DIALOGUES.talk_bad)
+		let lastTurn = 0
+
+		const update = () => {
+			// Calculate how many turns have passed since the last update
+			const delay = ++turn - lastTurn
+			lastTurn = turn
+
+			// Satiety (hunger) decreases with time
+			fullness -= delay
+
+			// If health or happiness is low, cleanliness also deteriorates
+
+			// If health or happiness is poor, there's a chance for health to drop
+			if (chance(1 - hp / 100) || chance(1 - mood / 100))
+				hp -= randInt(2 * delay)
+
+			// Same goes for happiness — it may decrease under bad conditions
+			if (chance(1 - hp / 100) || chance(1 - mood / 100))
+				mood -= randInt(2 * delay)
+
+			// Severe hunger causes health and happiness to decline
+			if (fullness < 25) {
+				hp -= delay
+				mood -= delay
+			}
+
+			clampValues()
+		}
+
+		const examine = async () => {
+			const message = [
+				t('hp') + makeBar(hp),
+				t('mood') + makeBar(mood),
+				t('fullness') + makeBar(fullness),
+			].join('\n\n')
+			game.openMessage(message)
+		}
+
+		/**
+		 * @param {number} value
+		 */
+		const makeBar = (value) => {
+			value = clamp(0, value, 100)
+			const fullBar = '██████████'
+			const color = getStatusText(value, ['<4>', '<6>', '<5>', '<7>'])
+			const score = Math.round(value / fullBar.length)
+			return color + fullBar.slice(0, score).padEnd(fullBar.length, '░') + color
+		}
+
+		const feed = async () => {
+			if (fullness >= 90) {
+				await game.openDialog(t('not-hungry'))
+				mood -= randInt(10)
+				return
+			}
+			fullness = 100
+			await game.openDialog(t('feels-good'))
+		}
+
+		const chat = async () => {
+			let dialog = [
+				getStatusText(mood, [
+					t('check_mood_critical'),
+					t('check_mood_low'),
+					t('check_mood_mid'),
+					t('check_mood_high'),
+				]),
+			]
+
+			const goodTalk = chance(9 / 10) || chance(mood / 100)
+
+			if (goodTalk) {
+				mood += randInt(5, 20)
+				dialog.push(t('talk_good'))
+			}
+
+			await game.openDialog(dialog.join('|'))
+		}
+
+		const care = async () => {
+			const good = chance(14 / 15)
+			if (good) {
+				hp += randInt(15, 25)
+				await game.openDialog(t('care_good'))
+			} else {
+				hp = Math.max(hp - 5, hp / 2)
+				await game.openDialog(t('care_bad'))
+			}
+		}
+
+		const clampValues = () => {
+			hp = clamp(0, hp, 100)
+			mood = clamp(0, mood, 100)
+			fullness = clamp(0, fullness, 100)
+		}
+
+		/**
+		 * @param {import('odyc').EventTarget} target
+		 */
+		const checkDeath = (target) => {
+			if (hp > 0) return false
+			game.playSound('FALL', 93)
+			game.openMessage(t('death'))
+			target.remove()
+			return true
+		}
+
+		return {
+			sprite: genSprite(8, 8),
+			async onCollide(target) {
+				if (checkDeath(target)) return
+				update()
+
+				/**@type {string[]}*/
+				let dialog = []
+
+				if (hp < 25) dialog.push(t('check_health_critical'))
+				if (mood < 25) dialog.push(t('check_mood_critical'))
+				if (fullness < 50) dialog.push(t('hungry'))
+
+				if (dialog.length) await game.openDialog(dialog.join('|'))
+
+				await game.openMenu({
+					[t('examine')]: examine,
+					[t('chat')]: chat,
+					[t('feed')]: feed,
+					[t('care')]: care,
+					[t('back')]: null,
+				})
+				checkDeath(target)
+				clampValues()
+			},
+		}
 	}
-
-	return game.openDialog(dialog)
-}
-
-/**
- *@param{number}health
- *@param{number}happiness
- */
-function check(health, happiness) {
-	let dialog = ''
-	if (health > 75) dialog += pick(...DIALOGUES.check_health_high)
-	else if (health > 50) dialog += pick(...DIALOGUES.check_health_mid)
-	else if (health > 25) dialog += pick(...DIALOGUES.check_health_low)
-	else dialog += pick(...DIALOGUES.check_health_critical)
-
-	dialog += '|'
-
-	if (happiness > 75) dialog += pick(...DIALOGUES.check_mood_high)
-	else if (happiness > 50) dialog += pick(...DIALOGUES.check_mood_mid)
-	else if (happiness > 25) dialog += pick(...DIALOGUES.check_mood_low)
-	else dialog += pick(...DIALOGUES.check_mood_critical)
-
-	return game.openDialog(dialog)
-}
-
-/**
- * @param {boolean} good
- */
-function takeCare(good) {
-	let dialog = ''
-
-	if (good) {
-		dialog += pick(...DIALOGUES.care_good)
-	} else {
-		dialog += pick(...DIALOGUES.care_bad)
-	}
-
-	return game.openDialog(dialog)
-}
-
-/**
- * @param {boolean} good
- */
-function medicate(good) {
-	let dialog = ''
-
-	if (good) {
-		dialog += pick(...DIALOGUES.medicate_good)
-	} else {
-		dialog += pick(...DIALOGUES.medicate_bad)
-	}
-
-	return game.openDialog(dialog)
 }
