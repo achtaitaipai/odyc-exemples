@@ -1,8 +1,9 @@
 import { createGame } from 'odyc'
 import { chance, clamp, genSprite, getStatusText, pick, randInt } from './utils'
-import { t } from './translations'
+import { getLang, t, texts } from './translations'
 
 let turn = 0
+let tipIndex = -1
 
 const game = createGame({
 	background: 2,
@@ -20,6 +21,34 @@ const game = createGame({
 		position: [9, 23],
 	},
 	templates: {
+		c: () => {
+			const c = pick(8, 9, 5)
+			const h = pick(0, 1, 6)
+			const tips = texts[getLang()].tips
+			tipIndex = (tipIndex + 1) % tips.length
+			let hasTalk = false
+			return {
+				sprite: `
+			...33...
+			..3333..
+			..${h}${c}${c}${h}..
+			.3${h}33${h}3.
+			3.3333.3
+			${c}.3333.${c}
+			..3..3..
+			..0..0..
+			`,
+
+				onScreenLeave(target) {
+					if (hasTalk) target.remove()
+				},
+
+				onCollide() {
+					game.openDialog(texts[getLang()].tips[tipIndex])
+					hasTalk = true
+				},
+			}
+		},
 		h: {
 			sprite: `
 			11111111
@@ -48,11 +77,10 @@ const game = createGame({
 			sprite: 0,
 			onCollide() {
 				const [x] = game.player.position
-				game.player.position = [x, 15]
-				game.openDialog(t('go'))
+				game.player.position = [x, 16]
 			},
 		},
-		D: { sprite: 0 },
+		D: { sprite: 0, dialog: "Ce n'est pas encore l'heure de partir" },
 		x: {
 			sprite: 1,
 		},
@@ -166,7 +194,7 @@ const game = createGame({
   xxtxxx  x....x  xxtxxx
 
   xxxxxx  x....x  xxxxxx
-  xb...x  x....x  x.p.bx
+  xb...x  x...cx  x.p.bx
   xB...>  <....>  <...Bx
   x..p.x  x....x  x....x
   x....x  x....x  x..f.x
@@ -201,20 +229,14 @@ function patient() {
 		let lastTurn = 0
 
 		const update = () => {
-			// Calculate how many turns have passed since the last update
 			const delay = ++turn - lastTurn
 			lastTurn = turn
 
-			// Satiety (hunger) decreases with time
 			fullness -= delay
 
-			// If health or happiness is low, cleanliness also deteriorates
-
-			// If health or happiness is poor, there's a chance for health to drop
 			if (chance(1 - hp / 100) || chance(1 - mood / 100))
 				hp -= randInt(2 * delay)
 
-			// Same goes for happiness — it may decrease under bad conditions
 			if (chance(1 - hp / 100) || chance(1 - mood / 100))
 				mood -= randInt(2 * delay)
 
@@ -300,18 +322,24 @@ function patient() {
 
 		return {
 			sprite: genSprite(8, 8),
-			async onCollide(target) {
-				if (checkDeath(target)) return
-				update()
+			async onScreenEnter() {
+				game.getAll('c').forEach((el) => el.remove())
+				game.addToCell(pick(7, 10), pick(2, 4, 7, 9, 13, 15), 'c')
 
 				/**@type {string[]}*/
 				let dialog = []
 
-				if (hp < 25) dialog.push(t('check_health_critical'))
-				if (mood < 25) dialog.push(t('check_mood_critical'))
+				update()
+
 				if (fullness < 50) dialog.push(t('hungry'))
+				if (hp < 30) dialog.push(t('check_health_critical'))
+				if (mood < 30) dialog.push(t('check_mood_critical'))
 
 				if (dialog.length) await game.openDialog(dialog.join('|'))
+			},
+			async onCollide(target) {
+				if (checkDeath(target)) return
+				update()
 
 				await game.openMenu({
 					[t('examine')]: examine,
