@@ -8,7 +8,7 @@ console.log(pathes)
 const getName = (path) => path.split('/').at(-1).replace('.html', '')
 
 export default defineConfig({
-	base: '/odyc-exemples/',
+	base: '/odyc-games/',
 	build: {
 		rollupOptions: {
 			input: {
