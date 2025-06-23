@@ -15,7 +15,7 @@
 		"vite": "^5.2.0"
 	},
 	"dependencies": {
-		"odyc": "^0.0.98-next.4",
+		"odyc": "^0.0.118",
 		"typescript": "^5.5.4"
 	}
 }
